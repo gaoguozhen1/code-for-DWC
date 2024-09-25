@@ -1,0 +1,249 @@
+###################EMF  SHI   and  Diversity#################.
+library(readxl)
+library(ggplot2)
+library(ggpattern)
+#相关R包载入：
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+df<-read_excel("a.xlsx",
+               sheet = "Sheet1")
+
+dt <- df %>%
+  group_by(tr, time) %>% 
+  summarise(m = mean(RE),
+            s = sd(RE)) 
+head(dt)
+library(ggpp)
+
+mycol1=c("#C2E7DB", "#FDD1C2", "#DBEEBA", "#FFEFAC")
+p1 <- ggplot(dt, aes(x = time, y = m, fill = tr)) +
+  geom_bar(position = position_dodge(), stat="identity", color = NA, width = 0.8) +
+  scale_fill_manual(values = mycol1) +
+  scale_y_continuous(expand = c(0,0)) +
+  theme_classic() +
+  geom_errorbar(aes(ymin = m-s,
+                    ymax = m+s),
+                position = position_dodge(width = 0.8), 
+                width = 0.2,size=1) + 
+  labs(y = 'EMF')
+p1
+
+df<-read_excel("a.xlsx",
+               sheet = "Sheet2")
+
+dt <- df %>%
+  group_by(tr, time) %>% 
+  summarise(m = mean(RE), 
+            s = sd(RE))
+head(dt)
+library(ggpp)
+mycol1=c("#C2E7DB", "#FDD1C2", "#DBEEBA", "#FFEFAC")
+p2 <- ggplot(dt, aes(x = time, y = m, fill = tr)) +
+  geom_bar(position = position_dodge(), stat="identity", color = NA, width = 0.8) +
+  scale_fill_manual(values = mycol1) +
+  scale_y_continuous(expand = c(0,0)) +
+  theme_classic() +
+
+  geom_errorbar(aes(ymin = m-s,
+                    ymax = m+s),
+                position = position_dodge(width = 0.8),
+                width = 0.2,size=1) + 
+  labs(y = 'SHIs')
+p2
+p1 + p2 +plot_layout(ncol = 2)
+
+
+
+
+df<-read_excel("a.xlsx",
+               sheet = "Sheet3")
+dt <- df %>%
+  group_by(tr, time) %>% 
+  summarise(m = mean(RE), 
+            s = sd(RE))
+head(dt)
+library(ggpp)
+mycol1=c("#C2E7DB", "#FDD1C2", "#DBEEBA", "#FFEFAC")
+p1 <- ggplot(dt, aes(x = time, y = m, fill = tr)) +
+  geom_bar(position = position_dodge(), stat="identity", color = NA, width = 0.8) +
+  scale_fill_manual(values = mycol1) +
+  scale_y_continuous(expand = c(0,0)) +
+  theme_classic() +
+
+  geom_errorbar(aes(ymin = m-s,
+                    ymax = m+s),
+                position = position_dodge(width = 0.8), 
+                width = 0.2,size=1) + 
+  labs(y = 'plant')
+p1
+
+df<-read_excel("a.xlsx",
+               sheet = "Sheet5")
+dt <- df %>%
+  group_by(tr, time) %>% 
+  summarise(m = mean(RE), 
+            s = sd(RE))
+head(dt)
+library(ggpp)
+mycol1=c("#C2E7DB", "#FDD1C2", "#DBEEBA", "#FFEFAC")
+p2 <- ggplot(dt, aes(x = time, y = m, fill = tr)) +
+  geom_bar(position = position_dodge(), stat="identity", color = NA, width = 0.8) +
+  scale_fill_manual(values = mycol1) +
+  scale_y_continuous(expand = c(0,0)) +
+  theme_classic() +
+  
+  geom_errorbar(aes(ymin = m-s,
+                    ymax = m+s),
+                position = position_dodge(width = 0.8), 
+                width = 0.2,size=1) + 
+  labs(y = 'fungi')
+p2
+
+df<-read_excel("a.xlsx",
+               sheet = "Sheet4")
+
+dt <- df %>%
+  group_by(tr, time) %>% 
+  summarise(m = mean(RE), 
+            s = sd(RE)) 
+head(dt)
+library(ggpp)
+
+mycol1=c("#C2E7DB", "#FDD1C2", "#DBEEBA", "#FFEFAC")
+p3 <- ggplot(dt, aes(x = time, y = m, fill = tr)) +
+  geom_bar(position = position_dodge(), stat="identity", color = NA, width = 0.8) +
+  scale_fill_manual(values = mycol1) +
+  scale_y_continuous(expand = c(0,0)) +
+  theme_classic() +
+
+  geom_errorbar(aes(ymin = m-s,
+                    ymax = m+s),
+                position = position_dodge(width = 0.8), 
+                width = 0.2,size=1) + 
+  labs(y = 'bac')
+p3
+p1 + p2 +p3+plot_layout(ncol = 2)
+
+################radar###################
+library(fmsb)
+library("ggradar")
+library(tidyverse)
+library(ggiraphExtra)
+library(tidyverse)
+
+df=read.csv("radar-stage.csv",header = T)
+ggradar(
+  df, 
+  values.radar = c("0", "0.5", "1"),
+  grid.min = 0, grid.mid = 0.5, grid.max = 1,
+  # Polygons
+  group.line.width = 1.5, 
+  group.point.size = 3,
+  group.colours = c("#CAE896","#FDC990","#A4C7DF","#DBB8FF"),
+  # Background and grid lines
+  background.circle.colour = "white",
+  gridline.mid.colour = "grey",
+  legend.position = "bottom"
+)
+
+
+df=read.csv("radar-tr.csv",header = T)
+ggradar(
+  df, 
+  values.radar = c("0", "0.5", "1"),
+  grid.min = 0, grid.mid = 0.5, grid.max = 1,
+  # Polygons
+  group.line.width = 1.5, 
+  group.point.size = 3,
+  group.colours = c("#CAE896","#FDC990","#A4C7DF","#DBB8FF"),
+  # Background and grid lines
+  background.circle.colour = "white",
+  gridline.mid.colour = "grey",
+  legend.position = "bottom"
+)
+
+###################Multithreshold method##################
+rm(list = ls())
+#setwd(choose.dir())
+#devtools::install_github("jebyrnes/multifunc")
+library(multifunc)
+library(tidyverse)
+library(gridExtra)
+df <- read.csv("FUNCTION-bac.csv",header = T,sep= ",") %>% 
+  as_tibble()
+
+allVars<-qw(DOC,AP,AK,AN,Rice,Weed,K,S,plantN,plantC,plantP,LA,NFS,SI,ACP,LAP,SC1,Chitinase)
+#select some variables
+vars<-whichVars(df, allVars)
+
+#---------------Threshold Approach-----------
+##multiple-thresholds approach
+
+df_Thresh<-getFuncsMaxed(df, vars, 
+                             threshmin=0.05, 
+                             threshmax=0.99,
+                             prepend="Diversity",
+                             maxN=7)
+
+summary(df_Thresh$thresholds)
+
+mfunc_df_linear<-glm(funcMaxed ~ Diversity, 
+                          data=subset(df_Thresh,
+                                      df_Thresh$thresholds == "0.8"), 
+                          family = quasipoisson(link="identity"))
+
+summary(mfunc_df_linear)
+
+df_Thresh$percent <- 100*df_Thresh$thresholds
+
+###
+df_linearSlopes<-getCoefTab(funcMaxed ~ Diversity, 
+                            data = df_Thresh,
+                            coefVar="Diversity", 
+                            family=quasipoisson(link="identity"))
+
+df_IDX <- getIndices(df_linearSlopes, df_Thresh, 
+                        funcMaxed ~ Diversity)
+df_IDX
+df_linearSlopes$estimate[which(df_linearSlopes$thresholds == df_IDX$Tmde)]
+
+df_Thresh$IDX <- 0
+df_Thresh$IDX [which(df_Thresh$thresholds %in%
+                           c(df_IDX$Tmin, df_IDX$Tmax,
+                             df_IDX$Tmde))] <- 1
+
+ggplot(data=df_Thresh, 
+       aes(x=Diversity, y=funcMaxed, group=percent)) +
+  geom_smooth(method="glm", se = F,
+              aes(color=percent, lwd = IDX)) +
+  labs(x = "Bacteria Shannon",
+       y = "Number of Functions >= Threshold")+
+  scale_color_gradient(name="Percent of \nMaximum",
+                       low="blue", high="red") +
+  scale_size(range=c(3,6), guide="none") +
+  #annotate(geom="text", x=9.15, y=c(0,2.2,3),
+        #   label=c("Tmax", "Tmde", "Tmin"))+
+  ##annotate(geom="text", x=9.15, 
+          # y=c(df_IDX$Mmin, df_IDX$Mmax,df_IDX$Mmde),
+           #label=c("Mmin", "Mmax", "Mmde"))+
+  theme_bw(base_size=14) 
+
+
+ggplot(df_linearSlopes, aes(x=thresholds)) +
+  geom_ribbon(fill="grey50",aes(x=thresholds*100, 
+                                ymin = estimate - 1.96*.data[["std.error"]],
+                                ymax= estimate + 1.96*.data[["std.error"]])) +
+  geom_point(aes(x=thresholds*100, y = estimate)) +
+  labs(x = "Threshold (%)", 
+       y = "Change in Number of Functions per Addition of 1 Species")+
+  geom_hline(yintercept = 0,linetype=2)+
+  annotate(geom="text", y=c(-0.01, -0.01, -0.01, 
+                            df_IDX$Rmde.linear+0.02),
+           x=c(df_IDX$Tmin*100, 
+               df_IDX$Tmde*100,
+               df_IDX$Tmax*100, 
+               df_IDX$Tmde*100),
+           label=c("Tmin", "Tmde", "Tmax","Rmde"), 
+           color="black")+
+  theme_bw(base_size=14)
